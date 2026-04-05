@@ -35,9 +35,9 @@ app.use('/api/auth', authRoutes);
 const projectRoutes = require('./routes/projects');
 app.use('/api/projects', projectRoutes);
 
-// TODO (Phase 3): Uncomment when ready
-// const taskRoutes = require('./routes/tasks');
-// app.use('/api/tasks', taskRoutes);
+// ✅ Phase 3 — Task routes activas
+const taskRoutes = require('./routes/tasks');
+app.use('/api', taskRoutes);
 
 // ─── Health check ─────────────────────────────────────────
 // A simple endpoint to verify the API is running.

@@ -77,21 +77,39 @@ Concepts learned:
 
 ---
 
-### Phase 2 — Projects CRUD ⏳ PENDING
+### Phase 2 — Projects CRUD ✅ COMPLETE
+**Date:** April 5, 2026
+
 Tasks:
-- [ ] Create `routes/projects.js`
-- [ ] Create `controllers/projectController.js`
-- [ ] Create `models/projectModel.js`
-- [ ] Apply `authMiddleware` to all project routes
+- [x] Create `routes/projects.js`
+- [x] Create `controllers/projectController.js`
+- [x] Create `models/projectModel.js`
+- [x] Apply `authMiddleware` to all project routes
+- [x] Test all 4 endpoints (GET, POST, PUT, DELETE)
+
+Concepts learned:
+- `req.user.id` viene del JWT — no del body (más seguro)
+- Ownership: filtrar siempre por user_id en las queries
+- Soft delete con `deleted_at = NOW()` — datos recuperables
+- `affectedRows > 0` para verificar si el UPDATE realmente tocó algo
 
 ---
 
-### Phase 3 — Tasks CRUD ⏳ PENDING
+### Phase 3 — Tasks CRUD 🔄 IN PROGRESS
+**Date:** April 5, 2026
+
 Tasks:
-- [ ] Create `routes/tasks.js`
-- [ ] Create `controllers/taskController.js`
-- [ ] Create `models/taskModel.js`
-- [ ] Implement status update (move task between columns)
+- [x] Create `models/taskModel.js`
+- [x] Create `controllers/taskController.js`
+- [x] Create `routes/tasks.js`
+- [x] Register routes in `app.js`
+- [ ] Test endpoints (GET, POST, PATCH status, DELETE)
+- [ ] Commit y push
+
+Concepts new:
+- JOIN entre tasks y projects para verificar ownership en dos niveles
+- PATCH vs PUT: PATCH actualiza parcialmente, PUT reemplaza completo
+- URLs anidadas: `/api/projects/:id/tasks` refleja jerarquía REST
 
 ---
 
