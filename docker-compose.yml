@@ -1,0 +1,85 @@
+# docker-compose.yml — TaskFlow Full Stack Environment
+#
+# This file defines 3 services that run together:
+#   1. db       → MySQL 8.0 database
+#   2. backend  → Node.js + Express API (port 3000)
+#   3. frontend → React + Vite dev server (port 5173)
+#
+# Usage:
+#   Start all services:   docker-compose up --build
+#   Stop all services:    docker-compose down
+#   View logs:            docker-compose logs -f
+#   Reset database:       docker-compose down -v  (WARNING: deletes data)
+
+version: '3.8'
+
+services:
+
+  # ─── MySQL Database ──────────────────────────────────────
+  db:
+    image: mysql:8.0
+    container_name: taskflow_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: taskflow_db
+      MYSQL_USER: taskflow_user
+      MYSQL_PASSWORD: taskflow_pass
+    ports:
+      - "3307:3306"   # Map to 3307 on host to avoid conflicts with local MySQL
+    volumes:
+      - mysql-data:/var/lib/mysql          # Persist data between restarts
+      - ./docs/db-schema.sql:/docker-entrypoint-initdb.d/schema.sql  # Auto-run schema on first start
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── Node.js Backend ─────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: taskflow_backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy   # Wait for MySQL to be ready
+    environment:
+      PORT: 3000
+      DB_HOST: db                    # Service name = hostname inside Docker network
+      DB_PORT: 3306
+      DB_USER: taskflow_user
+      DB_PASSWORD: taskflow_pass
+      DB_NAME: taskflow_db
+      JWT_SECRET: change_this_in_production
+      JWT_EXPIRES_IN: 7d
+      FRONTEND_URL: http://localhost:5173
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app               # Live reload during development
+      - /app/node_modules            # Don't overwrite container's node_modules
+
+  # ─── React Frontend ──────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: taskflow_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      VITE_API_URL: http://localhost:3000
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+# ─── Volumes ─────────────────────────────────────────────
+volumes:
+  mysql-data:
+    driver: local
