@@ -11,8 +11,8 @@
 |-------|-------|
 | **Name** | TaskFlow |
 | **Type** | Full Stack Web App — Kanban Task Manager |
-| **GitHub** | https://github.com/EstebanGamboaR/TaskFlow *(pending creation)* |
-| **Started** | April 4, 2026 |
+| **GitHub** | https://github.com/EstebanGamboaR/TaskFlow ✅ |
+| **Started** | April 5, 2026 |
 | **Goal** | Portfolio project demonstrating React + Node.js + REST API + JWT + Docker |
 | **Target** | Stand out among junior developers in job applications |
 
@@ -23,17 +23,17 @@
 | Layer | Technology | Status |
 |-------|-----------|--------|
 | Frontend | React 18 + Vite + Tailwind CSS | ⏳ Not started |
-| Backend | Node.js 22 + Express 4 | ✅ Structure created |
-| Database | MySQL 8.0 | ✅ Schema designed |
-| Auth | JWT + bcryptjs | ✅ Middleware written |
-| DevOps | Docker + Docker Compose | ✅ docker-compose.yml created |
+| Backend | Node.js 22 + Express 4 | ✅ Auth endpoints completos |
+| Database | MySQL 8.0 | ✅ Schema en producción |
+| Auth | JWT + bcryptjs | ✅ Register + Login funcionando |
+| DevOps | Docker + Docker Compose | ✅ docker-compose.yml creado |
 
 ---
 
 ## Development Phases
 
 ### Phase 0 — Project Setup ✅ COMPLETE
-**Date:** April 4, 2026
+**Date:** April 5, 2026
 
 What was done:
 - Defined project scope, name, and tech stack
@@ -56,20 +56,24 @@ Key decisions made:
 
 ---
 
-### Phase 1 — Backend Auth (Next) ⏳ PENDING
-**Goal:** Working register + login endpoints with JWT
+### Phase 1 — Backend Auth ✅ COMPLETE
+**Date:** April 5, 2026
 
 Tasks:
-- [ ] Run `npm install` in `backend/`
-- [ ] Create `routes/auth.js` — POST /register, POST /login
-- [ ] Create `controllers/authController.js` — business logic
-- [ ] Create `models/userModel.js` — DB queries
-- [ ] Test with Postman or curl
+- [x] Run `npm install` in `backend/`
+- [x] Create `routes/auth.js` — POST /register, POST /login
+- [x] Create `controllers/authController.js` — business logic
+- [x] Create `models/userModel.js` — DB queries
+- [x] Register routes in `app.js`
+- [ ] Test endpoints with curl/Postman ← EN PROGRESO
 
-Concepts to learn:
-- How `bcryptjs` hashes passwords
-- How `jsonwebtoken` creates and verifies tokens
-- The request → route → controller → model flow in Express
+Concepts learned:
+- `bcryptjs` hashea con salt rounds (10) — nunca texto plano en DB
+- `jsonwebtoken` firma el token con JWT_SECRET — stateless auth
+- Flujo request → route → controller → model en Express
+- Async/await con mysql2/promise + destructuring `[rows]`
+- Prepared statements con `?` previenen SQL injection
+- Error 401 genérico — no revelar si email existe o no
 
 ---
 
